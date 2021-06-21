@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody2d;
     float horizontal; 
     float vertical;
-    public float speed = 3f; 
+    public float speed;
     public KeyCode pressUp;
     public KeyCode pressDown;
     public KeyCode pressLeft;
@@ -18,10 +18,14 @@ public class PlayerController : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
     }
 
-   void Update()
+    void Update()
+    {
+        Rotate();
+    }
+
+    void FixedUpdate()
    {
         Move();
-        Rotate();
    }
 
    void Move() 
@@ -29,8 +33,8 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         Vector2 position = rigidbody2d.position;
-        position.x = position.x + 50 * horizontal * Time.deltaTime;
-        position.y = position.y + 50 * vertical * Time.deltaTime;
+        position.x = position.x + speed * horizontal * Time.deltaTime;
+        position.y = position.y + speed * vertical * Time.deltaTime;
 
         rigidbody2d.MovePosition(position);
    }
