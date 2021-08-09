@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public KeyCode pressDown;
     public KeyCode pressLeft;
     public KeyCode pressRight;
+    public Text text;
 
     void Start()
     {
@@ -58,4 +61,28 @@ public class PlayerController : MonoBehaviour
             GetComponent<Transform>().eulerAngles = new Vector3(0, 0, -90);
         }
    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Asteroid")
+        {
+            Destroy(this.gameObject);
+            text.text = "You Died";
+        }
+        if (SceneManager.GetActiveScene().name == "Level_1")
+        {
+            if (collision.gameObject.tag == "Winner")
+            {
+                SceneManager.LoadScene("Level_2");
+            }
+        }
+        else
+        {
+            if (collision.gameObject.tag == "Winner")
+            {
+                text.text = "Congragulations! You win!";
+            }
+        }
+        
+    }
 }
